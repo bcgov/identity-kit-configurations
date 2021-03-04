@@ -1,0 +1,19 @@
+[
+  {
+    "default": true,
+    "public": false,
+    "schema_name": "verified_person",
+    "schema_version": "1.4.0",
+    "attributes": [
+      "given_names",
+      "family_name",
+      "birthdate",
+      "street_address",
+      "postal_code",
+      "locality",
+      "region",
+      "country",
+      "issued"
+    ]
+  }
+]
