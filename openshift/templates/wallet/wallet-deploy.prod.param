@@ -8,8 +8,8 @@
 # APP_GROUP=identity-kit
 # SUFFIX=-bc
 # ROLE=wallet
-# IMAGE_NAMESPACE=devex-von-tools
-# SOURCE_IMAGE_NAME=issuer-wallet
+# IMAGE_NAMESPACE=a99fd4-tools
+# SOURCE_IMAGE_NAME=issuer-kit-wallet
 TAG_NAME=prod
 # POSTGRESQL_DATABASE_NAME=identity_kit_wallet
 # POSTGRESQL_USER=[a-zA-Z_][a-zA-Z0-9_]{10}
@@ -17,7 +17,7 @@ TAG_NAME=prod
 # POSTGRESQL_ADMIN_PASSWORD=[a-zA-Z0-9_~!@#$%^&*()-=<>,.?;:|]{16}
 # MOUNT_PATH=/var/lib/pgsql/data
 # PERSISTENT_VOLUME_SIZE=1Gi
-# PERSISTENT_VOLUME_CLASS=netapp-file-standard
+# PERSISTENT_VOLUME_CLASS=netapp-block-standard
 # CPU_REQUEST=10m
 # CPU_LIMIT=750m
 # MEMORY_REQUEST=10Mi
