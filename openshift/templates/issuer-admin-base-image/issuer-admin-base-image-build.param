@@ -3,13 +3,14 @@
 # Component: .
 # Template File: ../openshift/templates/issuer-admin-base-image/issuer-admin-base-image-build.json
 #=========================================================
-NAME=issuer-admin-base-image
+NAME=issuer-kit-admin-base-image
 APP_NAME=issuer-kit
 APP_GROUP=issuer-kit-base-image
 GIT_REPO_URL=https://github.com/bcgov/issuer-kit.git
 GIT_REF=master
 SOURCE_CONTEXT_DIR=.
 DOCKER_FILE_PATH=docker/issuer-admin/Dockerfile
+SOURCE_IMAGE=docker-remote.artifacts.developer.gov.bc.ca/node:erbium
 OUTPUT_IMAGE_TAG=latest
 CPU_LIMIT=1
 MEMORY_LIMIT=4Gi
