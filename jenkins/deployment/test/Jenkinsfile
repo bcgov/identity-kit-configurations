@@ -1,4 +1,4 @@
-def PIPELINE_NAME = "deployment/prod"
+def PIPELINE_NAME = "deployment/test"
 
 def LIB_NAME= "ised-business-banking-lib"
 def LIB_REPO = "https://github.com/bcgov/identity-kit-configurations.git"
