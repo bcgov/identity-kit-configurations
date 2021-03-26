@@ -181,7 +181,6 @@ objects:
                   --seed "${INDY_WALLET_SEED}"
                   --admin '0.0.0.0' ${ADMIN_INTERFACE_PORT}
                   $([ ! -z "${AGENT_ADMIN_API_KEY}" ] && echo "--admin-api-key ${AGENT_ADMIN_API_KEY}" || echo "--admin-insecure-mode")
-                  --label "${AGENT_NAME}"
                   --log-level ${AGENT_LOG_LEVEL}
                   --tails-server-base-url ${TAILS_SERVER_BASE_URL});
               env:
@@ -240,10 +239,12 @@ objects:
                     secretKeyRef:
                       name: ${NAME}${SUFFIX}
                       key: admin-api-key
-                - name: AGENT_NAME
+                - name: ACAPY_LABEL
                   value: ${AGENT_LABEL_NAME}
                 - name: AGENT_ENDPOINT
                   value: ${AGENT_BASE_URL}
+                - name: ACAPY_READ_ONLY_LEDGER
+                  value: ${AGENT_READ_ONLY_LEDGER}
                 - name: AGENT_LOG_LEVEL
                   value: ${LOG_LEVEL}
                 - name: TAILS_FILES_DIR
@@ -302,73 +303,22 @@ objects:
               kind: ImageStreamTag
               name: ${SOURCE_IMAGE_NAME}:${TAG_NAME}
               namespace: ${IMAGE_NAMESPACE}
-
-  - kind: NetworkSecurityPolicy
-    apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
-    metadata:
-      name: custom-${APP_NAME}-${NAME}-to-external-network
-      labels:
-        name: custom-${APP_NAME}-${NAME}-to-external-network
-        app: ${APP_NAME}
-        app-group: ${APP_GROUP}
-        role: ${ROLE}
-        env: ${TAG_NAME}
-    spec:
-      description: |
-        Allow the agent to access the internet.
-      source:
-        - - role=${ROLE}
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
-      destination:
-        - - ext:network=any
-
-  - kind: NetworkSecurityPolicy
-    apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
-    metadata:
-      name: custom-${APP_NAME}-${NAME}-policy
-      labels:
-        name: custom-${APP_NAME}-${NAME}-policy
-        app: ${APP_NAME}
-        app-group: ${APP_GROUP}
-        role: ${ROLE}
-        env: ${TAG_NAME}
-    spec:
-      description: |
-        Allow the agent to talk to either the wallet or controller micro services.
-      source:
-        - - role=${ROLE}
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
-
-      destination:
-        - - role=wallet
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
-        - - role=controller
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
-
 parameters:
   - name: NAME
     displayName: Name
     description: The name assigned to all the objects defined in this template.
     required: true
-    value: issuer-agent
+    value: identity-kit-agent
   - name: APP_NAME
     displayName: App Name
     description: Used to group components together in the OpenShift console.
     required: true
-    value: issuer-kit
+    value: identity-kit
   - name: APP_GROUP
     displayName: App Group
     description: Used to group components together.
     required: true
-    value: issuer-kit-agent
+    value: identity-kit
   - name: SUFFIX
     displayName: Suffix
     description: A suffix applied to all the objects in this template.
@@ -396,17 +346,17 @@ parameters:
   - name: IMAGE_NAMESPACE
     displayName: Namespace containing application images.
     required: true
-    value: devex-von-tools
+    value: a99fd4-tools
   - name: NAMESPACE_NAME
     displayName: Namespace Name
     description: The name of the namespace being deployed to.
     required: true
-    value: devex-von
+    value: a99fd4
   - name: SOURCE_IMAGE_NAME
     displayName: Source Image Name
     description: The name of the source image to use for the service.
     required: true
-    value: issuer-agent
+    value: issuer-kit-agent
   - name: TAG_NAME
     displayName: Environment TAG name
     description: The TAG name for this environment, e.g., dev, test, prod.
@@ -416,17 +366,22 @@ parameters:
     displayName: Agent Label/Name
     description: The label/name of the agent
     required: true
-    value: issuer-kit-agent
+    value: identity-kit-agent
+  - name: AGENT_READ_ONLY_LEDGER
+    displayName: Set read only ledger flag.
+    description: Enable/Disable the read only ledger flag.  Controls the inclusion/exclusion of the agent '--read-only-ledger' startup parameter.  Defaults to disabled.
+    required: true
+    value: "false"
   - name: AGENT_BASE_URL
     displayName: Agent endpoint
     description: The endpoint of the agent
     required: true
-    value: https://issuer-kit-agent.pathfinder.gov.bc.ca
+    value: https://identity-kit-agent.pathfinder.gov.bc.ca
   - name: WEBHOOK_URL
     displayName: Webhook URL
     description: The webhook endpoint
     required: true
-    value: http://issuer-api:8080/webhooks
+    value: http://identity-kit-api:8080/webhooks
   - name: AGENT_ADMIN_PORT
     displayName: Agent Admin Port
     description: The admin port on which the service will listen.
@@ -447,7 +402,7 @@ parameters:
     displayName: Genesis File URL
     description: The URL from which the genesis file can be downloaded.
     required: true
-    value: http://test.bcovrin.vonx.io/genesis
+    value: https://raw.githubusercontent.com/sovrin-foundation/sovrin/stable/sovrin/pool_transactions_sandbox_genesis
   - name: LOG_LEVEL
     displayName: Log Level
     description: The logging level for the agent.
