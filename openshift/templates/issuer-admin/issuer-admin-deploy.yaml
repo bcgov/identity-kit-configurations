@@ -6,6 +6,31 @@ metadata:
     tags: angular, caddy
   name: ${NAME}${SUFFIX}
 objects:
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
+    metadata:
+      name: ${NAME}-allow-ingress
+      labels:
+        name: ${NAME}-allow-ingress
+        app: ${APP_NAME}${SUFFIX}
+        app-group: ${APP_GROUP}${SUFFIX}
+        role: ${ROLE}
+        env: ${TAG_NAME}
+    spec:
+      description: |
+        Allow traffic from routes into the ${ROLE} container(s).
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  network.openshift.io/policy-group: ingress
+      podSelector:
+        matchLabels:
+          role: ${ROLE}
+          app: ${APP_NAME}${SUFFIX}
+          env: ${TAG_NAME}
+      policyTypes:
+        - Ingress
   - apiVersion: v1
     kind: DeploymentConfig
     metadata:
@@ -317,7 +342,7 @@ parameters:
     displayName: Config Mount Path
     description: The path to use to mount the config file.
     required: true
-    value: off
+    value: "off"
   - name: API_HOST
     displayName: API Service Name
     description: The name of the API service.
@@ -328,7 +353,7 @@ parameters:
     description: The port used by the API service.
     required: true
     value: "8080"
-  - description: The exposed hostname that will route to the service, e.g., myappname.pathfinder.gov.bc.ca, if left blank a value will be defaulted.
+  - description: The exposed hostname that will route to the service, e.g., myappname.apps.silver.devops.gov.bc.ca, if left blank a value will be defaulted.
     displayName: Application Hostname
     name: APPLICATION_DOMAIN
     value: ""
