@@ -7,6 +7,7 @@
 # APP_NAME=identity-kit
 # APP_GROUP=identity-kit
 # SUFFIX=-bc
+# BACKUP=true
 # ROLE=wallet
 # AGENT_ROLE=agent
 # NAMESPACE_NAME=a99fd4

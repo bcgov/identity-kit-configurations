@@ -14,6 +14,7 @@ objects:
         name: ${NAME}${SUFFIX}
         app: ${APP_NAME}${SUFFIX}
         env: ${TAG_NAME}
+        backup: ${BACKUP}
     spec:
       description: |
         Allow the agent(s) to access the wallet.
@@ -48,6 +49,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
     spec:
       strategy:
         type: Recreate
@@ -78,6 +80,7 @@ objects:
             app-group: ${APP_GROUP}
             role: ${ROLE}
             env: ${TAG_NAME}
+            backup: ${BACKUP}
         spec:
           volumes:
             - name: ${NAME}${SUFFIX}-data
@@ -159,6 +162,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
     spec:
       storageClassName: ${PERSISTENT_VOLUME_CLASS}
       accessModes:
@@ -176,6 +180,7 @@ objects:
         app-group: ${APP_GROUP}
         role: ${ROLE}
         env: ${TAG_NAME}
+        backup: ${BACKUP}
     stringData:
       admin-password: ${POSTGRESQL_ADMIN_PASSWORD}
       database-password: ${POSTGRESQL_PASSWORD}
@@ -192,6 +197,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
       annotations:
         template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="${NAME}${SUFFIX}")].port}
     spec:
@@ -225,6 +231,11 @@ parameters:
     description: A suffix applied to all of the objects in this template.
     required: false
     value: ""
+  - name: BACKUP
+    displayName: backup
+    description: true if backup container can connect to this pod
+    required: true
+    value: "true"
   - name: ROLE
     displayName: Role
     description: The role of this service within the application - used for Network Policies

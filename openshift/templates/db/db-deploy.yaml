@@ -14,6 +14,7 @@ objects:
         name: ${NAME}
         app: ${APP_NAME}
         env: ${TAG_NAME}
+        backup: ${BACKUP}
     spec:
       description: |
         Allow the api(s) to access the db.
@@ -48,6 +49,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
     spec:
       strategy:
         type: Recreate
@@ -78,6 +80,7 @@ objects:
             app-group: ${APP_GROUP}
             role: ${ROLE}
             env: ${TAG_NAME}
+            backup: ${BACKUP}
         spec:
           volumes:
             - name: ${NAME}${SUFFIX}-data
@@ -159,6 +162,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
     spec:
       storageClassName: ${PERSISTENT_VOLUME_CLASS}
       accessModes:
@@ -176,6 +180,7 @@ objects:
         app-group: ${APP_GROUP}
         role: ${ROLE}
         env: ${TAG_NAME}
+        backup: ${BACKUP}
     stringData:
       admin-password: ${MONGODB_ADMIN_PASSWORD}
       database-password: ${MONGODB_PASSWORD}
@@ -192,6 +197,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
     spec:
       ports:
         - name: mongodb
@@ -228,6 +234,11 @@ parameters:
     description: The role of this service within the application - used for Network Policies
     required: true
     value: db
+  - name: BACKUP
+    displayName: backup
+    description: true if backup container can connect to this pod
+    required: true
+    value: "true"
   - name: API_ROLE
     displayName: Api Role
     description:
