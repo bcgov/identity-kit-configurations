@@ -9,9 +9,9 @@ objects:
   - kind: NetworkPolicy
     apiVersion: networking.k8s.io/v1
     metadata:
-      name: ${NAME}
+      name: ${NAME}${SUFFIX}
       labels:
-        name: ${NAME}
+        name: ${NAME}${SUFFIX}
         app: ${APP_NAME}
         env: ${TAG_NAME}
         backup: ${BACKUP}
