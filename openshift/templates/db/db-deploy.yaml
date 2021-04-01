@@ -23,7 +23,7 @@ objects:
             - podSelector:
                 matchLabels:
                   role: ${API_ROLE}
-                  app: ${APP_NAME}
+                  app: ${APP_NAME}${SUFFIX}
                   env: ${TAG_NAME}
               namespaceSelector:
                 matchLabels:
@@ -35,7 +35,7 @@ objects:
       podSelector:
         matchLabels:
           role: ${ROLE}
-          app: ${APP_NAME}
+          app: ${APP_NAME}${SUFFIX}
           env: ${TAG_NAME}
   - kind: DeploymentConfig
     apiVersion: v1
