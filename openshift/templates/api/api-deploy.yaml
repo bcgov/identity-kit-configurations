@@ -19,7 +19,7 @@ objects:
         env: ${TAG_NAME}
     spec:
       description: |
-        Allow the agent and the frontend services to access the PI.
+        Allow the agent and the frontend services to access the API.
       ingress:
         - from:
             - podSelector:

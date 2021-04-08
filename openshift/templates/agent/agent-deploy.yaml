@@ -497,7 +497,7 @@ parameters:
     displayName: Tails Server Base Url
     description: The base URL for the Tails Server.
     required: true
-    value: https://tails-server-dev.apps.silver.devops.gov.bc.ca
+    value: https://tails-dev.vonx.io
   # ===============================================================================
   # Wallet Configuration
   #--------------------------------------------------------------------------------
