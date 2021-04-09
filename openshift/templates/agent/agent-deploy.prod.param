@@ -8,7 +8,7 @@
 # APP_GROUP=identity-kit
 # SUFFIX=-bc
 # ROLE=agent
-# API_ROLE=api
+# API_ROLE=controller
 APPLICATION_DOMAIN=identity-kit-agent.apps.silver.devops.gov.bc.ca
 ADMIN_APPLICATION_DOMAIN=identity-kit-agent-admin.apps.silver.devops.gov.bc.ca
 # ROUTE_TIMEOUT=120s
@@ -19,7 +19,7 @@ TAG_NAME=prod
 AGENT_LABEL_NAME=BC Identity Kit
 AGENT_READ_ONLY_LEDGER=true
 AGENT_BASE_URL=https://identity-kit-agent.apps.silver.devops.gov.bc.ca
-# WEBHOOK_URL=http://identity-kit-api-bc:8080/webhooks
+# WEBHOOK_URL=http://identity-kit-controller-bc:8080/webhooks
 # AGENT_ADMIN_PORT=8024
 # ADMIN_API_KEY=[a-zA-Z0-9]{16}
 # AGENT_HTTP_PORT=8021
