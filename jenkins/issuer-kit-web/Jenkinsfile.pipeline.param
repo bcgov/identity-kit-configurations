@@ -8,5 +8,5 @@ NAME=issuer-kit-web
 # GENERIC_WEBHOOK_SECRET=[a-zA-Z0-9]{40}
 SOURCE_REPOSITORY_URL=https://github.com/wadeking98/identity-kit-configurations.git
 SOURCE_REPOSITORY_REF=feature/ocp4
-CONTEXT_DIR=./jenkins/issuer-web
+CONTEXT_DIR=./jenkins/issuer-kit-web
 JENKINSFILE_PATH=Jenkinsfile
