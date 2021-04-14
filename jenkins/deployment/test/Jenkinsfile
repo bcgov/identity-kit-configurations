@@ -1,8 +1,8 @@
 def PIPELINE_NAME = "deployment/test"
 
-def LIB_NAME= "ised-business-banking-lib"
-def LIB_REPO = "https://github.com/wadeking98/identity-kit-configurations.git"
-def LIB_BRANCH = "feature/ocp4"
+def LIB_NAME= "identity-kit"
+def LIB_REPO = "https://github.com/bcgov/identity-kit-configurations.git"
+def LIB_BRANCH = "master"
 library identifier: "${LIB_NAME}@${LIB_BRANCH}",
         retriever: modernSCM(
           [$class: 'GitSCMSource',
