@@ -1,4 +1,4 @@
-def PIPELINE_NAME = "issuer-web"
+def PIPELINE_NAME = "issuer-kit-admin"
 
 def LIB_NAME= "identity-kit"
 def LIB_REPO = "https://github.com/bcgov/identity-kit-configurations.git"
