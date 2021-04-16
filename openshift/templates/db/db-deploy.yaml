@@ -6,6 +6,37 @@ metadata:
     tags: ${NAME}${SUFFIX}
   name: ${NAME}${SUFFIX}
 objects:
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
+    metadata:
+      name: ${NAME}${SUFFIX}
+      labels:
+        name: ${NAME}${SUFFIX}
+        app: ${APP_NAME}
+        env: ${TAG_NAME}
+        backup: ${BACKUP}
+    spec:
+      description: |
+        Allow the api(s) to access the db.
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: ${API_ROLE}
+                  app: ${APP_NAME}${SUFFIX}
+                  env: ${TAG_NAME}
+              namespaceSelector:
+                matchLabels:
+                  name: ${NAMESPACE_NAME}
+                  environment: ${TAG_NAME}
+          ports:
+            - protocol: TCP
+              port: 27017
+      podSelector:
+        matchLabels:
+          role: ${ROLE}
+          app: ${APP_NAME}${SUFFIX}
+          env: ${TAG_NAME}
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
@@ -18,6 +49,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
     spec:
       strategy:
         type: Recreate
@@ -48,6 +80,7 @@ objects:
             app-group: ${APP_GROUP}
             role: ${ROLE}
             env: ${TAG_NAME}
+            backup: ${BACKUP}
         spec:
           volumes:
             - name: ${NAME}${SUFFIX}-data
@@ -129,6 +162,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
     spec:
       storageClassName: ${PERSISTENT_VOLUME_CLASS}
       accessModes:
@@ -146,6 +180,7 @@ objects:
         app-group: ${APP_GROUP}
         role: ${ROLE}
         env: ${TAG_NAME}
+        backup: ${BACKUP}
     stringData:
       admin-password: ${MONGODB_ADMIN_PASSWORD}
       database-password: ${MONGODB_PASSWORD}
@@ -162,6 +197,7 @@ objects:
         role: ${ROLE}
         env: ${TAG_NAME}
         template: ${NAME}${SUFFIX}
+        backup: ${BACKUP}
     spec:
       ports:
         - name: mongodb
@@ -198,6 +234,23 @@ parameters:
     description: The role of this service within the application - used for Network Policies
     required: true
     value: db
+  - name: BACKUP
+    displayName: backup
+    description: true if backup container can connect to this pod
+    required: true
+    value: "true"
+  - name: API_ROLE
+    displayName: Api Role
+    description:
+      The role of the API service within the application - used for Network
+      Policies
+    required: true
+    value: controller
+  - name: NAMESPACE_NAME
+    displayName: Namespace Name
+    description: The base namespace name for the project.
+    required: true
+    value: a99fd4
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace
     required: true

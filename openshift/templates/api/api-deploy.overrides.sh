@@ -1,3 +1,4 @@
+#!/bin/bash
 _includeFile=$(type -p overrides.inc)
 if [ ! -z ${_includeFile} ]; then
   . ${_includeFile}
@@ -6,18 +7,16 @@ else
 fi
 
 OUTPUT_FORMAT=json
-
 # Generate application config map
 # - To include all of the files in the application instance's profile directory.
 # Injected by genDepls.sh
 # - APP_CONFIG_MAP_NAME
 # - SUFFIX
 # - DEPLOYMENT_ENV_NAME
-
 # Combine the profile's default config files with its environment specific config files before generating the config map ...
-profileRoot=$( dirname "$0" )/config/${PROFILE}
+profileRoot=$( dirname "$0" )/config
 profileEnv=${profileRoot}/${DEPLOYMENT_ENV_NAME}
-profileTmp=$( dirname "$0" )/config/${PROFILE}/tmp
+profileTmp=$( dirname "$0" )/config/tmp
 mkdir -p ${profileTmp}
 cp -f ${profileRoot}/* ${profileTmp} 2>/dev/null
 cp -f ${profileEnv}/* ${profileTmp} 2>/dev/null

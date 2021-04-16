@@ -1,6 +1,6 @@
-def PIPELINE_NAME = "issuer-kit-api"
+def PIPELINE_NAME = "issuer-kit-web"
 
-def LIB_NAME= "ised-business-banking-lib"
+def LIB_NAME= "identity-kit"
 def LIB_REPO = "https://github.com/bcgov/identity-kit-configurations.git"
 def LIB_BRANCH = "master"
 library identifier: "${LIB_NAME}@${LIB_BRANCH}", 
@@ -10,6 +10,7 @@ library identifier: "${LIB_NAME}@${LIB_BRANCH}",
           branches: [[name: "*/${LIB_BRANCH}"]]])  
 
 node {
+
   def config = load "../workspace@script/jenkins/${PIPELINE_NAME}/config.groovy"
 
   config.BUILDS.each {

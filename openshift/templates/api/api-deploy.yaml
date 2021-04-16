@@ -7,6 +7,56 @@ metadata:
     tags: nodejs
     iconClass: icon-nodejs
 objects:
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
+    metadata:
+      name: ${NAME}${SUFFIX}
+      labels:
+        name: ${NAME}${SUFFIX}
+        app: ${APP_NAME}${SUFFIX}
+        app-group: ${APP_GROUP}
+        role: ${ROLE}
+        env: ${TAG_NAME}
+    spec:
+      description: |
+        Allow the agent and the frontend services to access the API.
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: ${AGENT_ROLE}
+                  app: ${APP_NAME}${SUFFIX}
+                  env: ${TAG_NAME}
+              namespaceSelector:
+                matchLabels:
+                  name: ${NAMESPACE_NAME}
+                  environment: ${TAG_NAME}
+            - podSelector:
+                matchLabels:
+                  role: ${PUBLIC_FRONTEND_ROLE}
+                  app: ${APP_NAME}${SUFFIX}
+                  env: ${TAG_NAME}
+              namespaceSelector:
+                matchLabels:
+                  name: ${NAMESPACE_NAME}
+                  environment: ${TAG_NAME}
+            - podSelector:
+                matchLabels:
+                  role: ${ADMIN_FRONTEND_ROLE}
+                  app: ${APP_NAME}${SUFFIX}
+                  env: ${TAG_NAME}
+              namespaceSelector:
+                matchLabels:
+                  name: ${NAMESPACE_NAME}
+                  environment: ${TAG_NAME}
+          ports:
+            - protocol: TCP
+              port: ${{SERVICE_PORT}}
+      podSelector:
+        matchLabels:
+          role: ${ROLE}
+          app: ${APP_NAME}${SUFFIX}
+          env: ${TAG_NAME}
   - kind: Secret
     apiVersion: v1
     metadata:
@@ -232,6 +282,27 @@ parameters:
     description: The role of this service within the application - used for Network Policies
     required: true
     value: controller
+  - name: AGENT_ROLE
+    displayName: Agent Role
+    description:
+      The role of the agent service within the application - used for Network
+      Policies
+    required: true
+    value: agent
+  - name: PUBLIC_FRONTEND_ROLE
+    displayName: Public Frontend Role
+    description:
+      The role of the public frontend service within the application - used for Network
+      Policies
+    required: true
+    value: public-frontend
+  - name: ADMIN_FRONTEND_ROLE
+    displayName: Admin Frontend Role
+    description:
+      The role of the admin frontend service within the application - used for Network
+      Policies
+    required: true
+    value: admin-frontend
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace
     required: true
@@ -306,7 +377,7 @@ parameters:
     displayName: Public Site URL
     description: Public Site URL
     required: true
-    value: https://issuer-kit.pathfinder.gov.bc.ca
+    value: https://issuer-kit.apps.silver.devops.gov.bc.ca
   - name: LOG_LEVEL
     displayName: Log Level
     description: Log Level
