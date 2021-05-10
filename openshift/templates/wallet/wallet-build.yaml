@@ -20,11 +20,6 @@ objects:
         app: ${APP_NAME}
         app-group: ${APP_GROUP}
     spec:
-      triggers:
-        - type: ConfigChange
-        - type: ImageChange
-          imageChange: {}
-      runPolicy: Serial
       source:
         type: Git
         git:
@@ -41,6 +36,11 @@ objects:
         to:
           kind: ImageStreamTag
           name: ${NAME}:${OUTPUT_IMAGE_TAG}
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+          imageChange: {}
+      runPolicy: SerialLatestOnly
 parameters:
   - name: NAME
     displayName: Name

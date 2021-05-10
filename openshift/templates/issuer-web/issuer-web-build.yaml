@@ -24,7 +24,6 @@ objects:
         app: ${APP_NAME}
         app-group: ${APP_GROUP}
     spec:
-      runPolicy: Serial
       source:
         type: Dockerfile
         dockerfile: |-
@@ -50,6 +49,7 @@ objects:
       triggers:
         - type: ConfigChange
         - type: ImageChange
+      runPolicy: SerialLatestOnly
 parameters:
   - name: NAME
     displayName: Name
