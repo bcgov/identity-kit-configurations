@@ -2,7 +2,7 @@ def PIPELINE_NAME = "deployment/prod"
 
 def LIB_NAME= "identity-kit"
 def LIB_REPO = "https://github.com/bcgov/identity-kit-configurations.git"
-def LIB_BRANCH = "master"
+def LIB_BRANCH = "main"
 library identifier: "${LIB_NAME}@${LIB_BRANCH}",
         retriever: modernSCM(
           [$class: 'GitSCMSource',
