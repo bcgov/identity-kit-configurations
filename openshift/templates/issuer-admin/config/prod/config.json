@@ -7,7 +7,7 @@
   "authentication": {
     "enabled": true,
     "oidcSettings": {
-      "authority": "https://oidc.gov.bc.ca/auth/realms/gzyg46lx",
+      "authority": "https://loginproxy.gov.bc.ca/auth/realms/digitaltrust-citz",
       "clientId": "identity-kit-admin",
       "redirectUri": "https://identity-kit-admin.vonx.io/oidc-callback",
       "redirect_uri": "https://identity-kit-admin.vonx.io/oidc-callback-error",
