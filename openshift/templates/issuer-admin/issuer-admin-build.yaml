@@ -29,6 +29,7 @@ objects:
         dockerfile: |-
           FROM ${RUNTIME_IMAGE_NAME}:${RUNTIME_IMAGE_TAG}
           COPY /app/dist /srv
+          RUN chown 1001:root /usr/bin/caddy
         images:
           - from:
               kind: ${ARTIFACT_IMAGE_KIND}
